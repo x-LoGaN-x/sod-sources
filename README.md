@@ -1,6 +1,29 @@
-# Sistemi Operativi Dedicati -Sorgenti
+# Sistemi Operativi Dedicati - Sorgenti
 
+Sorgenti relativi agli esempi utilizzati durante le lezioni.
 
+## Dipendenze
+
+Per la compilazione degli esempi contenuti all'interno del repository è necessario aver installato i pacchetti base per la compilazione.
+
+Su Ubuntu ad esempio il pacchetto necessario è `build-essential` e può essere installato mediante il seguente comando:
+
+```sh
+sudo apt install build-essential
+```
+
+## Compilazione degli esempi
+
+Ciascuna sezione (directory) è corredata di un `Makefile`.
+
+Di norma all'interno di ciascun `Makefile` è definito il target `all` che provvede alla compilazione di tutti i file sorgenti presenti all'interno della directory.
+
+Per eseguire dunque la compilazione dei vari sorgenti, entrare nella directory di interesse ed eseguire il comando:
+
+```sh
+make all
+```
+---
 
 ## Getting started
 
