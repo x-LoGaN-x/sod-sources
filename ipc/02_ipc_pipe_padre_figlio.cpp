@@ -48,7 +48,7 @@ int main()
     else if (leia == 0) // Processo figlio
     {
         SPLIT(100, '-');
-        cout << "Leaia: invio sulla pipe del messaggio: " << sendMsg[0] << endl;
+        cout << "Leia: invio sulla pipe del messaggio: " << sendMsg[0] << endl;
         write(r2d2[1], sendMsg, sizeof(sendMsg[0]));
         SPLIT(100, '-');
         read(r2d2[0], recvMsg, sizeof(recvMsg));
