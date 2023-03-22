@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    pid = fork(); // genera il nuovo processo
+    pid = fork(); // Genera il nuovo processo
     switch (pid)
     {
     case -1: // Errore nella generazione del nuovo processo
