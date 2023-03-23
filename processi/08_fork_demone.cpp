@@ -14,6 +14,9 @@
  * 5. chiudere "standard input", "standard output" e "standard error" del
  *    processo perché il terminale e la shell vengono disconnesse dall'applicazione
  *
+ * Riferimento alle slide
+ * File: SODTR_03_Processi [I Processi]
+ *
  * Sistemi Operativi Dedicati - 2023
  * Università Politecnica delle Marche
  */
@@ -70,7 +73,6 @@ int main(int argc, char *argv[])
         sleep(2);
 
         // Creazione della nuova sessione
-
         setsid();
         SPLIT(100, '=');
         cout << "Figlio dopo essere diventato session leader" << endl;
