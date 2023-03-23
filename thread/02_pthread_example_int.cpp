@@ -1,4 +1,6 @@
 /**
+ * Esempio di generazione dei thread mediante libreria Pthread
+ * 
  * Revisione del codice di esempio per la creazione di un thread con la
  * libreria Pthreads. Gestita l'eventualità di parametro mancante da
  * riga di comando e passaggio di una variabile di tipo intero.

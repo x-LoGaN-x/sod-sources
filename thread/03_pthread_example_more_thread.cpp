@@ -1,4 +1,6 @@
 /**
+ * Esempio di generazione dei thread mediante libreria Pthread
+ * 
  * Esempio di generazione di più thread per la gestione di un compito
  * e attesa del completamento di tutti i thread. L'esempio utilizza la
  * libreria Pthreads.
