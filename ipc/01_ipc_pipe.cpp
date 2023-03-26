@@ -3,12 +3,10 @@
  *
  * La pipe semplice può essere utilizzata da più lettori e più scrittori,
  * ma generalmente viene utilizzata in un contesto uno a uno.
- * Lo scrittore può chiudere il descrittore di uscita, mentre il lettore può
- * chiudere il descrittore d'ingresso.
  *
  * Riferimento alle slide
- * File: SODTR_03_Processi [I Processi]
- * Slide: Sostituzione dello spazio di memoria in UNIX [#30]
+ * File: SODTR_04_IPC [Comunicazione tra Processi]
+ * Slide: Pipe convenzionali in UNIX [#27]
  *
  * Sistemi Operativi Dedicati - 2023
  * Università Politecnica delle Marche
