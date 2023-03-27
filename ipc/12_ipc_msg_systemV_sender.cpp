@@ -52,7 +52,7 @@ int main()
 
     cout << "MITTENTE: pronto a inviare i messaggi." << endl;
 
-    cout << "Immetti il testo, ^D per terminare:\n";
+    cout << "Immetti il testo, ^D per terminare:" << endl;
 
     // Definizione del tipo di messaggio
     buf.type = 1;
