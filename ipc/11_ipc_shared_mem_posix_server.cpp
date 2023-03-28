@@ -17,7 +17,7 @@ int main()
     char *ptrShmem;
 
     /**
-     * Creazzione e apertura della memoria condivisa
+     * Creazione e apertura della memoria condivisa
      *
      * int shm_open(const char *name, int oflag, mode_t mode);
      *

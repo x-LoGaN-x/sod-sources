@@ -100,7 +100,7 @@ int main(int argc, char **argv)
          * Maggiori info man mq_receive
          */
         // if (mq_receive(qdServer, (char *)&inMsg, MSG_BUFFER_SIZE, NULL) == -1)
-        if (mq_receive(qdServer, (char *)&inMsg, 1100, NULL) == -1)
+        if (mq_receive(qdServer, (char *)&inMsg, sizeof(inMsg), NULL) == -1)
         {
             cerr << "Server: Errore nella ricezione del messaggio (mq_receive)" << endl;
             perror("Details");

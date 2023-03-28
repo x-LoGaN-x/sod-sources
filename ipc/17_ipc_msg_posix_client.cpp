@@ -135,7 +135,7 @@ int main(int argc, char **argv)
          *
          * Maggiori info man mq_receive
          */
-        if (mq_receive(qdClient, (char *)&inMsg, MSG_BUFFER_SIZE, NULL) == -1)
+        if (mq_receive(qdClient, (char *)&inMsg, sizeof(inMsg), NULL) == -1)
         {
             cerr << "Client: Errore nella ricezione del messaggio dal server (mq_receive)" << endl;
             perror("Details");
