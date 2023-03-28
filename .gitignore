@@ -1,0 +1,5 @@
+# Cartella contenente le bozze
+draft/
+
+# File di sistema
+.directory
