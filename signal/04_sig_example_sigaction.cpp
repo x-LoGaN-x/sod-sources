@@ -20,7 +20,12 @@ using namespace std;
 /**
  * @brief Funzione per la gestione personalizzata dei segnali
  *
- * @param sig Segnale ricevuto mediante la chiamata kill().
+ * @param sig Segnale ricevuto dal processo
+ * @param info Puntatore alla struttura siginfo_t che contiene informazioni aggiuntive sul segnale.
+ *             Per maggiori info man sigaction.
+ * @param extra Puntatore a una struttura ucontext_t catato a void. La struttura contiene informazioni
+ *              sul contesto del segnale che sono state salvate dal kernel sulla pila dello spazio utente
+ *              (man 2 sigreturn). Per maggiori info sulla struttura man 3 getcontext e man 7 signal.l(7).
  */
 void usrSignalHandler(int sig, siginfo_t *info, void *extra);
 
@@ -28,7 +33,7 @@ void usrSignalHandler(int sig, siginfo_t *info, void *extra);
  * @brief Funzione per il risveglio, mediante segnale SIGALRM di un processo.
  *
  * @param pid Processo che si vuole svegliare.
- * @return int Esito della chiamata kill.
+ * @return int Esito della chiamata sigqueue.
  */
 int wakeUp(pid_t pid);
 
@@ -82,7 +87,10 @@ int main()
     /* Inizializzazione della maschera di segnali */
     sigemptyset(&usrSig.sa_mask);
 
-    /* Inizializzazione dei flag */
+    /**
+     * Per utilizzare il gestore con tre argomenti va impostato il flag a SA_SIGINFO.
+     * In questo caso, si deve impostare sa_sigaction invece di sa_handler.
+     */
     usrSig.sa_flags = SA_SIGINFO;
 
     /**
@@ -165,7 +173,7 @@ int main()
         cout << "Valore di sival_ptr " << *(pid_t *)value.sival_ptr << endl;
 
         pause();
-        
+
         SPLIT(100, '-');
         cout << "IO SONO TUO PADRE!!!" << endl;
         sprintf(buffer, "ps -e | (head -n 1; grep %d)", luke);
@@ -183,27 +191,28 @@ int main()
         cout << "Invio del segnale..." << endl;
 
         /**
-         * Invio del segnale
+         * Accodamento del segnale e dei dati associati
          *
-         * int kill(pid_t pid, int sig);
+         * int sigqueue(pid_t pid, int sig, const union sigval value);
          *
-         * La sistem call kill() può essere utilizzata per inviare un segnale ad un processo o
-         * gruppo di processi:
-         * - se pid è positivo, il segnale sig verrà inviato al processo con ID specificato da pid.
-         * - se pid è uguale a 0, il segnale sig verrà inviato a tutti i processi appartenenti al gruppo
-         *   del processo che ha utilizzato la chiamata di sistema
-         * - se pid è uguale a -1, il segnale sig sarà inviato a tutti i processi per i quali il processo
-         *   chiamante ha il permesso di inviare segnali, a eccezione del processo 1 (init).
-         * - se pid è minore di -1, il segnale sig sarà inviato a tutti i processi che fanno parte del
-         *   gruppo con ID -pid.
+         * La chiamata sigqueue() invia il segnale sig al processo il cui PID è indicato in pid.
+         * I permessi necessari per inviare un segnale sono gli stessi di kill(2). Come per
+         * kill(2), il segnale null (0) può essere usato per verificare l'esistenza di un processo
+         * con un determinato PID.
          *
-         * Se sig vale 0, non sarà inviato nessun segnale, ma il controllo sull'esistenza del processo
-         * e sui permessi di invio di segnali verrà comunque effettuato.
+         * L'argomento value viene utilizzato per specificare un dato di accompagnamento (un intero
+         * o un puntatore) da inviare con il segnale e ha il seguente tipo:
          *
-         * Per maggiori info man 2 kill
+         *     union sigval {
+         *         int   sival_int;
+         *         void *sival_ptr;
+         *     };
+         *
+         * Se il processo ricevente ha installato un gestore per questo segnale utilizzando il flag
+         * SA_SIGINFO di sigaction(2), può ottenere questi dati tramite il campo si_value della struttura
+         * siginfo_t passata come secondo argomento al gestore.
          */
         sigqueue(luke, SIGTERM, value);
-        // kill(luke, SIGTERM);
 
         SPLIT(100, '-');
         system(buffer);
@@ -251,5 +260,28 @@ int wakeUp(pid_t pid)
     SPLIT(100, '*');
     cout << "Invio del segnale SIGALRM al processo " << pid << endl;
     SPLIT(100, '*');
+
+    /**
+     * Accodamento del segnale e dei dati associati
+     *
+     * int sigqueue(pid_t pid, int sig, const union sigval value);
+     *
+     * La chiamata sigqueue() invia il segnale sig al processo il cui PID è indicato in pid.
+     * I permessi necessari per inviare un segnale sono gli stessi di kill(2). Come per
+     * kill(2), il segnale null (0) può essere usato per verificare l'esistenza di un processo
+     * con un determinato PID.
+     *
+     * L'argomento value viene utilizzato per specificare un dato di accompagnamento (un intero
+     * o un puntatore) da inviare con il segnale e ha il seguente tipo:
+     *
+     *     union sigval {
+     *         int   sival_int;
+     *         void *sival_ptr;
+     *     };
+     *
+     * Se il processo ricevente ha installato un gestore per questo segnale utilizzando il flag
+     * SA_SIGINFO di sigaction(2), può ottenere questi dati tramite il campo si_value della struttura
+     * siginfo_t passata come secondo argomento al gestore.
+     */
     return sigqueue(pid, SIGALRM, value);
 }
