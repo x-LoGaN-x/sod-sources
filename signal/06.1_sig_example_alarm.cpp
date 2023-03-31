@@ -14,7 +14,6 @@
 #include <unistd.h>
 #include <wait.h>
 #include <string.h>
-#include <chrono>
 using namespace std;
 
 #define SPLIT(n, char) cout << string(n, char) << endl
