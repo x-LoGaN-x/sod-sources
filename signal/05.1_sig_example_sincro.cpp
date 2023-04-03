@@ -20,7 +20,6 @@ using namespace std;
 
 int main()
 {
-
     int quot, ratio, num, den;
     char again[2];
     while (true)

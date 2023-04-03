@@ -112,6 +112,8 @@ int main()
      */
     sigaction(SIGALRM, &usrSig, NULL);
 
+    pid_t myPid = getpid();
+
     // Generazione di un nuovo processo figlio.
     // Il PID verrà assegnato alla variabile luke
     luke = fork();
@@ -163,8 +165,6 @@ int main()
     }
     else
     {
-        pid_t myPid = getpid();
-
         sigval value;
         value.sival_ptr = &myPid;
 
