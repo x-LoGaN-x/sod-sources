@@ -42,7 +42,7 @@ int main()
 		{
 			cout << *(shmCurPtr++);
 		}
-
+		cout << endl;
 		cout << "POST Empty (semEmpty)" << endl;
 		/* Post (signal) del semaforo semEmpty */
 		sem_post(semEmpty);
